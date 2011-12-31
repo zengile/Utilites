@@ -1,7 +1,20 @@
 #!/usr/bin/env ruby
+def gem_available?(name)
+  Gem::Specification.find_by_name(name)
+rescue Gem::LoadError
+  false
+rescue
+  Gem.available?(name)
+end
+
+unless gem_available?("colorize")
+  puts "Please install gem colorize first:"
+  puts "gem install colorize"
+  exit
+end
+require 'colorize'
 require 'net/http'
 require 'uri'
-require 'colorize'
 
 
 sites = ["booq.pro","railscasts.ru","ip.railscasts.ru","q3.railscasts.ru","ansever.booq.pro","menutka.com"]
