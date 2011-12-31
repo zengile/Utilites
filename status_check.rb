@@ -1,6 +1,7 @@
 #!/usr/bin/env ruby
 require 'net/http'
 require 'uri'
+require 'colorize'
 
 def get_code(url)
   resp = Net::HTTP.get_response(URI.parse(url))
@@ -10,15 +11,19 @@ end
 sites = ["booq.pro","railscasts.ru","ip.railscasts.ru","q3.railscasts.ru","ansever.booq.pro"]
 sites.map!{|s| "http://" + s}
 
-sites.each do |site|
-  code = get_code(site)
+puts "Processing ..."
+sites.map!{|s| {:site => s, :code => get_code(s)} }.sort!{|x,y| x[:code].to_i <=> y[:code].to_i}
+
+sites.each do |hash|
+  code = hash[:code]
+  site = hash[:site]
   case
   when code == "200" || code == "302"
-    message = "[OK]"
+    message = "[OK]".colorize( :light_green )
   when code[0] == '5'
-    message = "[FAIL]"
+    message = "[FAIL]".colorize( :light_red )
   else
-    message = "[#{code}]"
+    message = "[#{code}]".colorize( :light_yellow )
   end
   puts "#{message}\t:\t#{site}"
 end
