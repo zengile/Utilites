@@ -29,5 +29,5 @@ sites.each do |hash|
   else
     message = "[#{code}]".colorize( :light_yellow )
   end
-  puts "#{message}\t:\t#{site}"
+  puts "#{message}\t:\t#{site.colorize( :white )}"
 end
