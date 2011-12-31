@@ -11,7 +11,7 @@ URL="https://raw.github.com/4freaks/Utilites/master"
 cd /tmp
 
   if [ "$1" = "" ]; then
-    echo "install need parameter"
+    echo "rcasts need parameter"
 elif  [ "$1" = "upgrade" ]; then
   cd /usr/bin/ && sudo wget -Nq $URL/rcasts && chmod +x rcasts
   exit 0
