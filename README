@@ -1,0 +1,2 @@
+rcasts how to install
+sudo apt-get --assume-yes install wget > /dev/null 2>&1 && cd /usr/bin/ && sudo wget -Nq https://raw.github.com/4freaks/Utilites/master/rcasts && sudo chmod +x rcasts
