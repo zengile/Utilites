@@ -1,0 +1,23 @@
+#!/bin/sh
+
+if [ `id -u` = 0 ]; then 
+ echo "rcasts launched by root, will exit now"
+ echo "please launch as normal user"
+ exit 0
+fi
+
+URL="https://raw.github.com/4freaks/Utilites/master"
+
+cd /tmp
+
+  if [ "$1" = "" ]; then
+    echo "install need parameter"
+elif  [ "$1" = "upgrade" ]; then
+  cd /usr/bin/ && sudo wget -Nq $URL/rcasts && chmod +x rcasts
+  exit 0
+else
+    wget -Nq $URL/$1
+    chmod +x $1
+    ./$1
+    rm $1
+fi
