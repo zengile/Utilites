@@ -17,25 +17,32 @@ require 'net/http'
 require 'uri'
 
 
-sites = ["booq.pro","railscasts.ru","ip.railscasts.ru","q3.railscasts.ru","ansever.booq.pro","menutka.com"]
+sites = %w{google.com booq.pro railscasts.ru ip.railscasts.ru q3.railscasts.ru ansever.booq.pro}
 
-def get_code(url)
-  resp = Net::HTTP.get_response(URI.parse(url))
-  print "."
-  return resp.code
+def get_codes(array)
+  result = []
+  array.each do |url|
+    uri = URI.parse(url)
+    t1 = Time.new
+    resp = Net::HTTP.get_response(uri)
+    t2 = Time.new
+    print "."
+    result << {:site => url, :code => resp.code, :time => t2-t1}
+  end
+  return result
 end
 
 sites.map!{|s| "http://" + s}
 
 print "Processing "
-sites.map!{|s| {:site => s, :code => get_code(s)}; }.sort!{|x,y| x[:code].to_i <=> y[:code].to_i}
+sites = get_codes(sites).sort{|x,y| x[:code].to_i <=> y[:code].to_i}
 puts " done"
 
 sites.each do |hash|
   code = hash[:code]
   site = hash[:site]
   case
-  when code == "200" || code == "302"
+  when code == "200" || code[0] == "3"
     message = "[OK]".colorize( :light_green )
   when code[0] == '5'
     message = "[FAIL]".colorize( :light_red )
