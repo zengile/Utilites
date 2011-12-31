@@ -8,13 +8,15 @@ sites = ["booq.pro","railscasts.ru","ip.railscasts.ru","q3.railscasts.ru","ansev
 
 def get_code(url)
   resp = Net::HTTP.get_response(URI.parse(url))
+  print "."
   return resp.code
 end
 
 sites.map!{|s| "http://" + s}
 
-puts "Processing ..."
-sites.map!{|s| {:site => s, :code => get_code(s)} }.sort!{|x,y| x[:code].to_i <=> y[:code].to_i}
+print "Processing "
+sites.map!{|s| {:site => s, :code => get_code(s)}; }.sort!{|x,y| x[:code].to_i <=> y[:code].to_i}
+puts " done"
 
 sites.each do |hash|
   code = hash[:code]
