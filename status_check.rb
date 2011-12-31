@@ -26,8 +26,9 @@ sites.each do |hash|
     message = "[OK]".colorize( :light_green )
   when code[0] == '5'
     message = "[FAIL]".colorize( :light_red )
+    fail = true
   else
     message = "[#{code}]".colorize( :light_yellow )
   end
-  puts "#{message}\t:\t#{site.colorize( :white )}"
+  puts "#{message}\t:\t#{(fail)? site.colorize( :light_red ) : site.colorize( :white )}"
 end
