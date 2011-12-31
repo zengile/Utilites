@@ -3,12 +3,14 @@ require 'net/http'
 require 'uri'
 require 'colorize'
 
+
+sites = ["booq.pro","railscasts.ru","ip.railscasts.ru","q3.railscasts.ru","ansever.booq.pro","menutka.com"]
+
 def get_code(url)
   resp = Net::HTTP.get_response(URI.parse(url))
   return resp.code
 end
 
-sites = ["booq.pro","railscasts.ru","ip.railscasts.ru","q3.railscasts.ru","ansever.booq.pro"]
 sites.map!{|s| "http://" + s}
 
 puts "Processing ..."
