@@ -18,23 +18,26 @@ require 'uri'
 
 
 sites = %w{google.com booq.pro railscasts.ru ip.railscasts.ru q3.railscasts.ru ansever.booq.pro}
+sites.map!{|s| "http://" + s}
 
 def get_codes(array)
   result = []
+  threads = []
   array.each do |url|
-    uri = URI.parse(url)
-    t1 = Time.new
-    resp = Net::HTTP.get_response(uri)
-    t2 = Time.new
-    print "."
-    result << {:site => url, :code => resp.code, :time => t2-t1}
+    threads << Thread.new do
+      uri = URI.parse(url)
+      t1 = Time.new
+      resp = Net::HTTP.get_response(uri)
+      t2 = Time.new
+      print "."
+      Thread.current["myhash"] = {:site => url, :code => resp.code, :time => t2-t1}
+    end
   end
+  threads.each {|t| t.join; result << t["myhash"]} 
   return result
 end
 
-sites.map!{|s| "http://" + s}
-
-print "Processing "
+print "Processing (#{sites.length} threads) "
 sites = get_codes(sites).sort{|x,y| x[:code].to_i <=> y[:code].to_i}
 puts " done"
 
