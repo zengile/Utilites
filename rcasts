@@ -15,6 +15,9 @@ cd /tmp
 elif  [ "$1" = "upgrade" ]; then
   cd /usr/bin/ && sudo wget -Nq $URL/rcasts && chmod +x rcasts
   exit 0
+elif  [ "$1" = "help" ]; then
+  curl -s $URL/README
+  exit 0
 else
     wget -Nq $URL/$1
     chmod +x $1
