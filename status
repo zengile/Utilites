@@ -7,12 +7,13 @@ rescue
   Gem.available?(name)
 end
 
+color = true
 unless gem_available?("colorize")
-  puts "Please install gem colorize first:"
-  puts "gem install colorize"
-  exit
+  puts "[WARNING]: Please install colorize: gem install colorize"
+  color = false
+else
+  require 'colorize'
 end
-require 'colorize'
 require 'net/http'
 require 'uri'
 
@@ -49,12 +50,16 @@ sites.each do |hash|
   site = hash[:site]
   case
   when code == "200" || code[0] == "3"
-    message = "[OK]".colorize( :light_green )
+    message = "[OK]"
+    message = message.colorize( :light_green ) if color
   when code[0] == '5'
-    message = "[FAIL]".colorize( :light_red )
+    message = "[FAIL]"
+    message = message.colorize( :light_red ) if color
     fail = true
   else
-    message = "[#{code}]".colorize( :light_yellow )
+    message = "[#{code}]"
+    message = message.colorize( :light_yellow ) if color
   end
-  puts "#{message}\t:\t#{(fail)? site.colorize( :light_red ) : site.colorize( :white )}"
+  site = (fail)? site.colorize( :light_red ) : site.colorize( :white ) if color
+  puts "#{message}\t:\t#{site}"
 end
