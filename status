@@ -28,13 +28,16 @@ def get_codes(array)
     threads << Thread.new do
       uri = URI.parse(url)
       begin
+      t1 = Time.now
       resp = Net::HTTP.get_response(uri)
+      t2 = Time.now
       code = resp.code
       rescue
       code = "5000"
       end
+      time = ((t2-t1)*1000).to_i
+      Thread.current["myhash"] = {:site => url, :code => code, :time => time }
       print "."
-      Thread.current["myhash"] = {:site => url, :code => code}
     end
   end
   threads.each {|t| t.join; result << t["myhash"]} 
