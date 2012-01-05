@@ -18,7 +18,7 @@ require 'net/http'
 require 'uri'
 
 
-sites = %w{google.com booq.pro railscasts.ru ip.railscasts.ru q3.railscasts.ru ansever.booq.pro yandex.ru}
+sites = %w{booq.pro railscasts.ru ip.railscasts.ru q3.railscasts.ru ansever.booq.pro menutka.com}
 sites.map!{|s| "http://" + s}
 
 def get_codes(array)
