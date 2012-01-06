@@ -8,24 +8,21 @@ fi
 
 URL="https://raw.github.com/4freaks/Utilites/master"
 
-#cd /tmp
-
   if [ "$1" = "" ]; then
     echo "rcasts need parameter"
 elif  [ "$1" = "upgrade" ]; then
-  wget -Nq $URL/rcasts && chmod +x rcasts && sudo mv rcasts /usr/bin/rcasts
+  sudo wget -Nq $URL/rcasts -O /usr/bin/rcasts && sudo chmod +x /usr/bin/rcasts
   exit 0
 elif  [ "$1" = "help" ]; then
   curl -s $URL/README
 elif  [ "$1" = "rcstyle" ]; then
-  wget -Nq $URL/rbeautify.rb && sudo mv rbeautify.rb /usr/bin/rcstyle && chmod +x /usr/bin/rcstyle && echo "rcstyle installed, now you can run it with rcstyle file.rb"
+  wget -Nq $URL/rbeautify.rb -O /usr/bin/rcstyle && chmod +x /usr/bin/rcstyle && echo "rcstyle installed, now you can run it with rcstyle file.rb"
 elif  [ "$1" = "style.rb" ]; then
-  wget -Nq $URL/rbeautify.rb && chmod +x rbeautify.rb && mv rbeautify.rb temp_style_script.rb
+  wget -Nq $URL/rbeautify.rb -O temp_style_script.rb && chmod +x temp_style_script.rb
   find . -type f -iname "*.rb" -exec ./temp_style_script.rb {} \;
   rm temp_style_script.rb
 else
-    wget -Nq $URL/$1
-    chmod +x $1
+    cd /tmp && wget -Nq $URL/$1 && chmod +x $1
     ./$1
     rm $1
 fi
