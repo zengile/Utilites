@@ -190,6 +190,7 @@ module RBeautify
          dest,error = beautify_string(source,"stdin")
          print dest
       else # named file source
+         puts "Processing: #{path}"
          source = File.read(path)
          dest,error = beautify_string(source,path)
          if(source != dest)
