@@ -17,11 +17,8 @@ elif  [ "$1" = "upgrade" ]; then
   exit 0
 elif  [ "$1" = "help" ]; then
   curl -s $URL/README
-  exit 0
-elif  [ "$1" = "rstyle" ]; then
-  cd /usr/bin/ && wget -Nq $URL/rbeautify.rb && sudo mv -v rbeautify.rb /usr/bin/rstyle && chmod +x rstyle
-  echo "rstyle installed, now you can run it with rstyle file.rb"
-  exit 0
+elif  [ "$1" = "rcstyle" ]; then
+  wget -Nq $URL/rbeautify.rb && sudo mv rbeautify.rb /usr/bin/rcstyle && chmod +x /usr/bin/rcstyle && echo "rcstyle installed, now you can run it with rcstyle file.rb"
 else
     wget -Nq $URL/$1
     chmod +x $1
