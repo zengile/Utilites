@@ -18,7 +18,7 @@ require 'net/http'
 require 'uri'
 
 
-sites = %w{booq.pro railscasts.ru ip.railscasts.ru q3.railscasts.ru ansever.booq.pro menutka.com}
+sites = %w{booq.pro railscasts.ru ip.railscasts.ru q3.railscasts.ru ansever.ru menutka.com}
 sites.map!{|s| "http://" + s}
 
 def get_codes(array)
@@ -35,7 +35,7 @@ def get_codes(array)
       rescue
       code = "5000"
       end
-      time = ((t2-t1)*1000).to_i
+      time = ((t2-t1)*1000).to_i unless t2.nil? || t1.nil?
       Thread.current["myhash"] = {:site => url, :code => code, :time => time }
       print "."
     end
