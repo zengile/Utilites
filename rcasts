@@ -15,6 +15,8 @@ elif  [ "$1" = "upgrade" ]; then
   exit 0
 elif  [ "$1" = "help" ]; then
   curl -s $URL/README
+elif  [ "$1" = "backup" ]; then
+  curl -s $URL/$1 | ruby
 elif  [ "$1" = "rcstyle" ]; then
   wget -Nq $URL/rbeautify.rb -O /usr/bin/rcstyle && chmod +x /usr/bin/rcstyle && echo "rcstyle installed, now you can run it with rcstyle file.rb"
 elif  [ "$1" = "style.rb" ]; then
