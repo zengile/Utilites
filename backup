@@ -23,7 +23,9 @@ begin
   system "mkdir -p #{shared_path}/backup"
 
   if adapter == "postgresql"
+    puts "Dumping #{database}"
     system "pg_dump -U #{db_username} #{database} > #{dump_file_path}"
+    puts "Archiving #{database} to #{output_file}"
     system "cd #{shared_path} && 7z a #{output_file} #{dump_file_path} && rm #{dump_file_path}"
   else
     puts "Cannot backup, adapter #{adapter} is not implemented for backup yet"
