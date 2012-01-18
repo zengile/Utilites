@@ -1,9 +1,11 @@
 #!/usr/bin/env ruby
 require 'yaml'
 
+script_path = File.expand_path(File.dirname(File.dirname(__FILE__)))
+
 rails_env = "production"
-file = "current/config/database.yml"
-shared_path = "shared"
+file = "#{script_path}/current/config/database.yml"
+shared_path = "#{script_path}/shared"
 
 begin
   config = YAML::load(File.open(file))
