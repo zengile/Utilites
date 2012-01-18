@@ -1,19 +1,31 @@
 #!/usr/bin/env ruby
 require 'yaml'
 
-system("pwd")
-
 rails_env = "production"
 file = "current/config/database.yml"
+shared_path = "shared"
+
 begin
   config = YAML::load(File.open(file))
   adapter = config[rails_env]["adapter"]
   database = config[rails_env]["database"]
   db_username = config[rails_env]["username"]
   db_password = config[rails_env]["password"]
+
   timestamp = Time.new.to_i.to_s
   file_name = "#{database}-#{timestamp}.sql"
+  archive_ext = "7z"
+  dump_file_path = "#{shared_path}/backup/#{file_name}"
+  output_file = "#{dump_file_path}.#{archive_ext}"
 
+  system "mkdir -p #{shared_path}/backup"
+
+  if adapter == "postgresql"
+    run "pg_dump -U #{db_username} #{database} > #{dump_file_path}"
+    run "cd #{shared_path} && 7z a #{output_file} #{dump_file_path} && rm #{dump_file_path}"
+  else
+    puts "Cannot backup, adapter #{adapter} is not implemented for backup yet"
+  end
 
 rescue Errno::ENOENT
   puts "No such file or directory #{file}"
